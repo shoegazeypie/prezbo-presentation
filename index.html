@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRESENTATION</title>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
+<script src="slides.js"></script>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
+<script>
+onerror = function (msg) {
+log(msg);
+}
+
+function log(msg) {
+document.getElementById('log').appendChild(document.createTextNode(new Date() + ' ' + msg + '\n'));
+}
+
+function status(msg) {
+log(msg);
+document.getElementById('status').textContent = msg;
+}
+function clearLog() {
+var e = document.getElementById('log');
+while (e.hasChildNodes()) {
+e.removeChild(e.firstChild);
+}
+e.appendChild(document.createTextNode('Log: \n'));
+}
+</script>
+
+<script>
+var socket = null;
+var controller = false;
+//slides=[];
+//FOR NOW HARDCODED SLIDES
+//slides = [{content:'SLIDE 0'}, {content:'SLIDE 1'}, {content:'SLIDE 2'}, {content:'SLIDE 3'}, {content:'SLIDE 4'}];
+    
+
+function connect() {
+
+    if (socket == null) {
+        socket = io.connect(null,{'auto connect': false});
+        
+        socket.on('connect', function () {
+            $('#connecting-area').hide();
+            for (var i = 0; i < slides.length; i++) {
+               $('#presentation-area').append('<div id=\'slide-'+i+'\' class=\'slide\'>'+slides[i].content+'</div>');
+            }
+            send(JSON.stringify({module:'presentation', method:'slidevars',  data:{min:0, max:slides.length-1}}));
+            status('Connected');
+        });
+
+        socket.on('message', function (data) {
+            //log(data);
+            $('html,body').animate({scrollTop: $('#slide-'+data).offset().top}, 1000);
+        });
+    }
+    socket.socket.connect();
+}
+
+function send(x) {
+if (socket && socket.socket.connected) {
+       socket.send(x); 
+
+} else {
+log('Not connected.');
+}
+}
+
+
+function update() {
+if (socket && socket.socket && socket.socket.transport) {
+document.getElementById('sessionId').textContent = socket.socket.transport.sessid;
+document.getElementById('transport').textContent = socket.socket.transport.name;
+} else {
+document.getElementById('sessionId').textContent = '-';
+document.getElementById('transport').textContent = '-';
+}
+}
+setInterval(update, 10);
+
+function query(){
+   var vars = [], hash;
+   var q = document.URL.split('?')[1];
+   if(q != undefined){
+    	q = q.split('&');
+		for(var i = 0; i < q.length; i++){
+            hash = q[i].split('=');
+			//vars.push(hash[1]);
+			vars[hash[0]] = hash[1];
+		}
+    } 
+    return vars;
+}
+
+$(document).ready(function(){
+    connect();
+    q = query();
+    if(q['controller'] == 'true'){
+        controller=true;
+        $('.inputs').show();    
+    }
+    
+
+});
+
+</script>
+<style>
+.slide{width:100%; height:1000px;}
+#techstuff{display:none;}
+</style>
+
+</head>
+
+<body>
+<div class='container'>
+<div id='techstuff'>
+    <p>
+    <label style='width:200px;float:left'>Status: <span id="status">Idle</span></label>
+    </p>
+    <p>SessionId: <span id="sessionId">-</span></p>
+    <p>Transport: <span id="transport">-</span></p>
+</div>
+<div id="log">Log:</div>
+<div id="connecting-area" class="hero-unit"><h1>Connecting...</h1></div>
+<div id='presentation-area'></div>
+<div class='inputs navbar navbar-fixed-bottom' style='display:none;'>
+    <div class="navbar-inner">
+        <a class="brand" href="#">Slide controls</a>
+        <form class='navbar-form'>
+
+            <input class="btn" type='button' value='Back' onclick="send(JSON.stringify({module:'presentation', method:'moveslide',  data:-1}))"></input>
+            <input class="btn" type='button' value='Forward' onclick="send(JSON.stringify({module:'presentation', method:'moveslide',  data:1}))"></input>
+
+        </form>
+    </div>
+</div>
+</div>
+</body>
+</html>
