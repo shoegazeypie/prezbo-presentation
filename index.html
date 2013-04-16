@@ -6,9 +6,11 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
-<script src="slides.js"></script>
+
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
+<!--<link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">-->
+<script src="/bootstrap/bootstrap.js"></script>
+
 <script>
 onerror = function (msg) {
 log(msg);
@@ -19,7 +21,7 @@ document.getElementById('log').appendChild(document.createTextNode(new Date() + 
 }
 
 function status(msg) {
-log(msg);
+//log(msg);
 document.getElementById('status').textContent = msg;
 }
 function clearLog() {
@@ -34,21 +36,22 @@ e.appendChild(document.createTextNode('Log: \n'));
 <script>
 var socket = null;
 var controller = false;
-//slides=[];
+slides=[];
 //FOR NOW HARDCODED SLIDES
-//slides = [{content:'SLIDE 0'}, {content:'SLIDE 1'}, {content:'SLIDE 2'}, {content:'SLIDE 3'}, {content:'SLIDE 4'}];
+slides = [{content:'SLIDE 0'}, {content:'SLIDE 1'}, {content:'SLIDE 2'}, {content:'SLIDE 3'}, {content:'SLIDE 4'}];
     
 
 function connect() {
-
     if (socket == null) {
         socket = io.connect(null,{'auto connect': false});
         
         socket.on('connect', function () {
             $('#connecting-area').hide();
             for (var i = 0; i < slides.length; i++) {
-               $('#presentation-area').append('<div id=\'slide-'+i+'\' class=\'slide\'>'+slides[i].content+'</div>');
+               $('#presentation-area').append('<div id=\'slide-'+i+'\' class=\'slide\'><div class="slide-header">'+slides[i].title+'</div>'+slides[i].content+'</div>');
             }
+            $('.slide').height($(window).height());
+            $('#presentation-area').show();
             send(JSON.stringify({module:'presentation', method:'slidevars',  data:{min:0, max:slides.length-1}}));
             status('Connected');
         });
@@ -97,7 +100,11 @@ function query(){
 }
 
 $(document).ready(function(){
-    connect();
+    $.getJSON('/slides.json', function(data){
+        slides = data.slides;
+        connect();   
+    });
+
     q = query();
     if(q['controller'] == 'true'){
         controller=true;
@@ -111,6 +118,7 @@ $(document).ready(function(){
 <style>
 .slide{width:100%; height:1000px;}
 #techstuff{display:none;}
+.slide .slide-header {background-color:#eaeaea;}
 </style>
 
 </head>
