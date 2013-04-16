@@ -3,6 +3,7 @@ var app = require('http').createServer(handler)
 , fs = require('fs')
 , fu = require("./fu")
 
+//app.listen(process.env.PORT || 8001);
 app.listen(1337);
 
 
@@ -10,6 +11,9 @@ var clients = [ ];
 var slideno = 0;
 var minslide =0;
 var maxslide = 0;
+
+
+
 
 
 function handler (req, res) {
