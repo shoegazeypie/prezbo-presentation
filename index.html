@@ -36,9 +36,11 @@ e.appendChild(document.createTextNode('Log: \n'));
 <script>
 var socket = null;
 var controller = false;
+var paused = false;
+var currentslide = 0;
 slides=[];
 //FOR NOW HARDCODED SLIDES
-slides = [{content:'SLIDE 0'}, {content:'SLIDE 1'}, {content:'SLIDE 2'}, {content:'SLIDE 3'}, {content:'SLIDE 4'}];
+//slides = [{content:'SLIDE 0'}, {content:'SLIDE 1'}, {content:'SLIDE 2'}, {content:'SLIDE 3'}, {content:'SLIDE 4'}];
     
 
 function connect() {
@@ -57,8 +59,18 @@ function connect() {
         });
 
         socket.on('message', function (data) {
-            //log(data);
-            $('html,body').animate({scrollTop: $('#slide-'+data).offset().top}, 1000);
+            console.log(currentslide);
+            console.log(data);
+            console.log($('html').scrollTop());
+            console.log($('#slide-'+currentslide).offset().top);
+            if($('html').scrollTop()!=$('#slide-'+currentslide).offset().top){
+                paused = true;
+                $('.catchup').show();
+            }
+            if(!paused){
+                $('html,body').animate({scrollTop: $('#slide-'+data).offset().top}, 1000);
+            }
+            currentslide = data;
         });
     }
     socket.socket.connect();
@@ -71,6 +83,12 @@ if (socket && socket.socket.connected) {
 } else {
 log('Not connected.');
 }
+}
+
+function catchup(){
+    paused = false;
+    $('html,body').animate({scrollTop: $('#slide-'+currentslide).offset().top}, 1000);
+    $('.catchup').hide();
 }
 
 
@@ -121,6 +139,7 @@ $(document).ready(function(){
 .slide .slide-header {background-color:#eaeaea; height:20%;}
 .container{width:100%;}
 .slide iframe{width:100%; height:80%; border:0;}
+h2{margin:0;}
 </style>
 
 </head>
@@ -138,6 +157,15 @@ $(document).ready(function(){
 
 <div id="connecting-area" class="hero-unit"><h1>Connecting...</h1></div>
 <div id='presentation-area'></div>
+<div class='catchup navbar navbar-fixed-bottom' style='display:none;'>
+    <div class="navbar-inner">
+        <form class='navbar-form'>
+            <p>You are now out of sync with the presentation</p>
+            <input class="btn" type='button' value='Catch back up' onclick="catchup()"></input>
+        </form>
+    </div>
+</div>
+
 <div class='inputs navbar navbar-fixed-bottom' style='display:none;'>
     <div class="navbar-inner">
         <a class="brand" href="#">Slide controls</a>
