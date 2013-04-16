@@ -9,7 +9,7 @@
 
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <!--<link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">-->
-<script src="/bootstrap/bootstrap.js"></script>
+<script src="/bootstrap/js/bootstrap.js"></script>
 
 <script>
 onerror = function (msg) {
@@ -48,7 +48,7 @@ function connect() {
         socket.on('connect', function () {
             $('#connecting-area').hide();
             for (var i = 0; i < slides.length; i++) {
-               $('#presentation-area').append('<div id=\'slide-'+i+'\' class=\'slide\'><div class="slide-header">'+slides[i].title+'</div>'+slides[i].content+'</div>');
+               $('#presentation-area').append('<div id=\'slide-'+i+'\' class=\'slide\'><div class="slide-header"><h2>'+slides[i].title+'<h2></div>'+slides[i].content+'</div>');
             }
             $('.slide').height($(window).height());
             $('#presentation-area').show();
@@ -118,7 +118,9 @@ $(document).ready(function(){
 <style>
 .slide{width:100%; height:1000px;}
 #techstuff{display:none;}
-.slide .slide-header {background-color:#eaeaea;}
+.slide .slide-header {background-color:#eaeaea; height:20%;}
+.container{width:100%;}
+.slide iframe{width:100%; height:80%; border:0;}
 </style>
 
 </head>
@@ -131,8 +133,9 @@ $(document).ready(function(){
     </p>
     <p>SessionId: <span id="sessionId">-</span></p>
     <p>Transport: <span id="transport">-</span></p>
+    <div id="log"></div>
 </div>
-<div id="log">Log:</div>
+
 <div id="connecting-area" class="hero-unit"><h1>Connecting...</h1></div>
 <div id='presentation-area'></div>
 <div class='inputs navbar navbar-fixed-bottom' style='display:none;'>

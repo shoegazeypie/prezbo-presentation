@@ -1,5 +1,5 @@
 {"slides":[
     {"title":"First slide", "content":"<ul><li>Point 1</li><li>Point 2</li><li>Point 3</li></ul>"},
     {"title":"Second slide", "content":"<ul><li>Point 1</li><li>Point 2</li><li>Point 3</li></ul>"},
-    {"title":"Third slide", "content":"<ul><li>Point 1</li><li>Point 2</li><li>Point 3</li></ul>"}
+    {"title":"Third slide", "content":"<iframe src='http://www.w3.org/History/19921103-hypertext/hypertext/WWW/TheProject.html'></iframe>"}
 ]}
