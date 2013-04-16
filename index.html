@@ -99,14 +99,28 @@ function query(){
     return vars;
 }
 
+// obv super hacky & shouldn't be on frontend but easiest thing for now
+
+function iscontroller(){
+   var vars = [], hash;
+   var q = document.URL.split('/')[3];
+	 console.log(q);
+   if(q == "controller"){
+			return true;
+    }else{ 
+			return false;
+		}
+		
+}
+
 $(document).ready(function(){
     $.getJSON('/slides.json', function(data){
         slides = data.slides;
         connect();   
     });
 
-    q = query();
-    if(q['controller'] == 'true'){
+    //q = query();
+    if(iscontroller()){
         controller=true;
         $('.inputs').show();    
     }

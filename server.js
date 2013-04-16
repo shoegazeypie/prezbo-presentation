@@ -16,12 +16,14 @@ function handler (req, res) {
    //remove query params
    q = req.url.indexOf('?');
    if(q != -1){root = req.url.substring(0, q);}
-
    else{root=req.url;}
+	 //root = req.url;
 
-    if (root != "/"){
+		console.log("trying to load " + root);
+	 
+    if (root != "/" && root!="/controller"){
  
-        var filename = req.url.replace("/","");
+        var filename = root.replace("/","");
  
         var content_type = fu.mime.lookupExtension(fu.extname(filename));
  
