@@ -61,9 +61,9 @@ function connect() {
         socket.on('message', function (data) {
             console.log(currentslide);
             console.log(data);
-            console.log($('html').scrollTop());
+            console.log($(document).scrollTop());
             console.log($('#slide-'+currentslide).offset().top);
-            if($('html').scrollTop()!=$('#slide-'+currentslide).offset().top){
+            if($(document).scrollTop()!=$('#slide-'+currentslide).offset().top){
                 paused = true;
                 $('.catchup').show();
             }
