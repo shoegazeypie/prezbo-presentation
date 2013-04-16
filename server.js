@@ -3,7 +3,7 @@ var app = require('http').createServer(handler)
 , fs = require('fs')
 , fu = require("./fu")
 
-app.listen(process.env.PORT || 8001);
+app.listen(1337);
 
 
 var clients = [ ];
