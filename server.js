@@ -54,9 +54,15 @@ function handler (req, res) {
                     "Content-Length": body.length
                 };
                 //if (!DEBUG) headers["Cache-Control"] = "public";
- 
+                console.log('content type', headers['Content-Type']);
+                
                 res.writeHead(200, headers);
-                res.end(req.method === "HEAD" ? "" : body);
+                if(headers['Content-Type'] == 'image/gif'){
+                    res.end(data, 'binary');
+                }
+                else{
+                    res.end(req.method === "HEAD" ? "" : body);
+                }
             }
         });
     }else{   
