@@ -85,6 +85,12 @@ function connect() {
 							currentslide = json.data;
 						}
 
+						
+						if (json.module=='vote' && json.method=='updatevotes'){
+							voteExample.updateVotes(json.data);            
+						}   
+										
+						
             //module_onmessage(json);
             
         });
