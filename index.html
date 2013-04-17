@@ -58,20 +58,39 @@ function connect() {
             status('Connected');
         });
 
+   
+				
         socket.on('message', function (data) {
-            console.log(currentslide);
-            console.log(data);
-            console.log($(document).scrollTop());
-            console.log($('#slide-'+currentslide).offset().top);
-            if($(document).scrollTop()!=$('#slide-'+currentslide).offset().top){
-                paused = true;
-                $('.catchup').show();
+            
+            console.log("jsondata : " + data);
+            try {
+                var json = JSON.parse(data);
+            } catch (e) {
+                console.log('This doesn\'t look like a valid JSON: ', data);
+                return;
             }
-            if(!paused){
-                $('html,body').animate({scrollTop: $('#slide-'+data).offset().top}, 1000);
-            }
-            currentslide = data;
+						
+						if (json.module == 'presentation' && json.method == 'moveslide'){
+							console.log(currentslide);
+							console.log(json.data);
+							console.log($(document).scrollTop());
+							console.log($('#slide-'+currentslide).offset().top);
+							if($(document).scrollTop()!=$('#slide-'+currentslide).offset().top){
+									paused = true;
+									$('.catchup').show();
+							}
+							if(!paused){
+									$('html,body').animate({scrollTop: $('#slide-'+json.data).offset().top}, 1000);
+							}
+							currentslide = json.data;
+						}
+
+            //module_onmessage(json);
+            
         });
+				
+
+   
     }
     socket.socket.connect();
 }

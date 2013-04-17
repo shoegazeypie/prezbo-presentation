@@ -3,7 +3,7 @@ var app = require('http').createServer(handler)
 , fs = require('fs')
 , fu = require("./fu")
 
-app.listen(process.env.PORT || 8001);
+app.listen(process.env.PORT || 1337);
 //app.listen(1337);
 
 
@@ -12,8 +12,16 @@ var slideno = 0;
 var minslide =0;
 var maxslide = 0;
 
-
-
+// hardcoded yeah
+var votes = [ ];
+var options = Array('Yes','No');
+for (var i=0; i < options.length; i++) {
+	votes.push({
+		name: options[i],
+		numVotes: 0
+	});
+}
+////
 
 
 function handler (req, res) {
@@ -76,6 +84,8 @@ io.sockets.on('connection', function (socket) {
             console.log('This doesn\'t look like a valid JSON: ', data);
             return;
         }
+				
+				// this stuff should eventually live in the modules:
         if(json.module == 'presentation'){
             if(json.method == 'slidevars'){
                 minslide = json.data.min;
@@ -84,13 +94,20 @@ io.sockets.on('connection', function (socket) {
             else if(json.method == 'moveslide'){
                 if(json.data == 1 && slideno<maxslide){ slideno++;}
                 else if(json.data == -1 && slideno > minslide){slideno--;}
+								json.data = slideno;
+								data = JSON.stringify(json);
                 for (var i=0; i < clients.length; i++) {
                     
-                    clients[i].send(slideno);
+                    clients[i].send(data);
                 }               
             }
         
         }
+				if (json.type=='vote'){
+            votes[json.data].numVotes ++;
+            data = JSON.stringify({ type:'votes', data: votes });
+        }        
+				
 
     });
 });
