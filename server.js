@@ -111,7 +111,10 @@ io.sockets.on('connection', function (socket) {
         }
 				if (json.type=='vote'){
             votes[json.data].numVotes ++;
-            data = JSON.stringify({ type:'votes', data: votes });
+            data = JSON.stringify({ module:'vote', method:'updatevotes', data: votes });
+						for (var i=0; i < clients.length; i++) {
+								clients[i].send(data);
+						}   
         }        
 				
 
