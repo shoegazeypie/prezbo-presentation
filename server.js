@@ -54,15 +54,14 @@ function handler (req, res) {
                     "Content-Length": body.length
                 };
                 //if (!DEBUG) headers["Cache-Control"] = "public";
-                console.log('content type', headers['Content-Type']);
                 
                 res.writeHead(200, headers);
-                if(headers['Content-Type'] == 'image/gif'){
+                /*if(headers['Content-Type'] == 'image/gif'){
                     res.end(data, 'binary');
                 }
-                else{
+                else{*/
                     res.end(req.method === "HEAD" ? "" : body);
-                }
+                //}
             }
         });
     }else{   
@@ -111,10 +110,7 @@ io.sockets.on('connection', function (socket) {
         }
 				if (json.type=='vote'){
             votes[json.data].numVotes ++;
-            data = JSON.stringify({ module:'vote', method:'updatevotes', data: votes });
-						for (var i=0; i < clients.length; i++) {
-								clients[i].send(data);
-						}   
+            data = JSON.stringify({ type:'votes', data: votes });
         }        
 				
 
