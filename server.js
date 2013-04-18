@@ -118,7 +118,7 @@ function getFileResponse( path, callback ){
 
     console.log("getFileResponse " + path);
 
-	fs.exists( path, function ( path_exists ){
+	PATH.exists( path, function ( path_exists ){
 		if ( path_exists ){
             console.log("exists");
 			fs.readFile( path, function ( error, data ){
