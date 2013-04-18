@@ -89,8 +89,9 @@ function connect() {
 							currentslide = json.data;
 						}
 
-						
+						console.log(json);
 						if (json.module=='vote' && json.method=='updatevotes'){
+							
 							voteExample.updateVotes(json.data);            
 						}   
 										
@@ -226,7 +227,7 @@ h2{margin:0;}
     <div id="log"></div>
 </div>
 
-<div id="connecting-area"><h1>Connecting...</h1><!--<img src='/loader.gif' />--></div>
+<div id="connecting-area"><h1>Connecting...</h1><img src='/loader.gif' /></div>
 <div id='presentation-area'></div>
 <div class='catchup navbar navbar-fixed-bottom' style='display:none;'>
     <div class="navbar-inner">
