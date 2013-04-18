@@ -28,6 +28,8 @@ Vote.prototype.onMessage = function(json){
 
 Vote.prototype.updateVotes = function(votes){
     
+		console.log(votes);
+		
     ctx.fillStyle = "#eee";
     ctx.fillRect(0,0,300,300);
 
@@ -37,6 +39,7 @@ Vote.prototype.updateVotes = function(votes){
     for (var i=0; i < votes.length; i++) {
         totalVotes += votes[i].numVotes;
     }
+		
     
     for (var i=0; i < votes.length; i++) {
     
@@ -44,6 +47,8 @@ Vote.prototype.updateVotes = function(votes){
         var barHeight = 300 * pct;
         document.getElementById('vote' + votes[i].name).innerHTML = votes[i].numVotes + ' (' + (pct * 100) + '%)';
     
+				console.log(pct);
+		
         ctx.fillStyle = colours[i];
         ctx.fillRect((i*barWidth) + 10,(300 - barHeight),barWidth - 20,barHeight);
     

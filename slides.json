@@ -1,9 +1,0 @@
-{"slides":[
-{"title":"Mobile capabilities", "content":"<p>More tech possibilities and different user priorities</p><ul><li>Geolocation</li><li>Notifications</li><li>More physical interactions</li><li>Not supporting legacy browsers</li></ul>"},
-{"title":"The oldest HTML5 site in the world (sort of)", "content":"<iframe src='http://www.w3.org/History/19921103-hypertext/hypertext/WWW/TheProject.html'></iframe>"},
-{"title":"Responsive sites and HTML5", "content":"<ul><li>Responsive sites don't <b>have</b> to use HTML5's new features</li><li>HTML5 is an important tool for building websites displaying on both desktop and mobile devices</li></ul>"},
-{"title":"Geolocation", "content":"<ul><li>Part of the HTML5 spec accessed by Javascript</li><li>Asks user permission</li><li>Extra data on our users</li></ul>"},
-{"title":"Geolocation", "content":"<script type='text/javascript' src='geoloc.js'></script><article><span id='status' ></span><input id='locbutton' class='btn' type='button' onclick='findme()' value='Find me'></input></article>"},
-
-{"title":"Client-Side Storage", "content":"<ul><li>Offline storage of data</li><li>Several different methods</li><li>User sign up at events without wifi</li></ul>"}
-]}
