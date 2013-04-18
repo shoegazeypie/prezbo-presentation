@@ -36,6 +36,8 @@ e.appendChild(document.createTextNode('Log: \n'));
 <script>
 var socket = null;
 var controller = false;
+var presentation = false;
+var slave = false;
 var paused = false;
 var currentslide = 0;
 slides=[];
@@ -69,6 +71,8 @@ function connect() {
                 console.log('This doesn\'t look like a valid JSON: ', data);
                 return;
             }
+						
+						console.log(json);
 						
 						if (json.module == 'presentation' && json.method == 'moveslide'){
 							console.log(currentslide);
@@ -156,17 +160,43 @@ function iscontroller(){
 		
 }
 
+function ispresentation(){
+   var vars = [], hash;
+   var q = document.URL.split('/')[3];
+	 console.log(q);
+   if(q == "presentation"){
+			return true;
+    }else{ 
+			return false;
+		}
+		
+}
+
 $(document).ready(function(){
-    $.getJSON('/slides.json', function(data){
+    
+		var slidesjson = '/slides.json';
+		//q = query();
+    if(iscontroller()){
+        controller=true;
+        $('.inputs').show(); 
+				slidesjson = '/slides.json';
+					
+    }else if(ispresentation()){
+        presentation=true;
+        //$('.inputs').show();  
+				slidesjson = '/slides-main.json';				
+    }else{
+			slave = true;
+			
+		}
+		
+		
+    $.getJSON(slidesjson, function(data){
         slides = data.slides;
         connect();   
     });
 
-    //q = query();
-    if(iscontroller()){
-        controller=true;
-        $('.inputs').show();    
-    }
+
     
 
 });
@@ -196,7 +226,7 @@ h2{margin:0;}
     <div id="log"></div>
 </div>
 
-<div id="connecting-area"><h1>Connecting...</h1><img src='/loader.gif' /></div>
+<div id="connecting-area"><h1>Connecting...</h1><!--<img src='/loader.gif' />--></div>
 <div id='presentation-area'></div>
 <div class='catchup navbar navbar-fixed-bottom' style='display:none;'>
     <div class="navbar-inner">
