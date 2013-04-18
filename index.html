@@ -51,13 +51,15 @@ function connect() {
         
         socket.on('connect', function () {
             $('#connecting-area').hide();
-            for (var i = 0; i < slides.length; i++) {
-               $('#presentation-area').append('<div id=\'slide-'+i+'\' class=\'slide\'><div class="slide-header"><img src=\'devices.png\' class=\'header-img small-invisible\' /><h2>'+slides[i].title+'<h2></div>'+slides[i].content+'</div>');
+            if(!slides.length){
+                for (var i = 0; i < slides.length; i++) {
+                   $('#presentation-area').append('<div id=\'slide-'+i+'\' class=\'slide\'><div class="slide-header"><img src=\'devices.png\' class=\'header-img small-invisible\' /><h2>'+slides[i].title+'<h2></div>'+slides[i].content+'</div>');
+                }
+                $('.slide').height($(window).height());
+            
+                $('#presentation-area').show();
+                send(JSON.stringify({module:'presentation', method:'slidevars',  data:{min:0, max:slides.length-1}}));
             }
-            $('.slide').height($(window).height());
-        
-            $('#presentation-area').show();
-            send(JSON.stringify({module:'presentation', method:'slidevars',  data:{min:0, max:slides.length-1}}));
             status('Connected');
         });
 
