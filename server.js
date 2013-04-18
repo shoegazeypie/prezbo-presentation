@@ -93,8 +93,18 @@ function handler (req, res) {
 // Filter server requests by type
 
 function handleRequest( url, callback ){
-    console.log("handleRequest " + url);
-    if ( PATH.extname( url ) === '' ){
+  console.log("handleRequest " + url);
+  
+	//remove query params
+  var q = url.indexOf('?');
+  if(q != -1){url = url.substring(0, q);}
+	
+	if ( url  === '/' ){
+		getFileResponse( '/goaway.html', function ( response_object ){
+			callback( response_object );
+		} );
+	}
+	else if ( PATH.extname( url ) === '' ){
 		getFileResponse( '/index.html', function ( response_object ){
 			callback( response_object );
 		} );
@@ -187,9 +197,14 @@ io.sockets.on('connection', function (socket) {
             }
         
         }
+				console.log(json);
 				if (json.type=='vote'){
             votes[json.data].numVotes ++;
-            data = JSON.stringify({ type:'votes', data: votes });
+            data = JSON.stringify({ module:'vote', method:'updatevotes', data: votes });
+						for (var i=0; i < clients.length; i++) {
+								
+								clients[i].send(data);
+						}   
         }        
 				
 
