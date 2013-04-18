@@ -11,7 +11,7 @@ function success(position) {
   $('#locbutton').hide();
   var mapcanvas = document.createElement('div');
   mapcanvas.id = 'mapcanvas';
-  mapcanvas.style.height = '400px';
+  mapcanvas.style.height = '300px';
   mapcanvas.style.width = '100%';
     
   document.querySelector('article').appendChild(mapcanvas);

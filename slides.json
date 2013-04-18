@@ -1,5 +1,5 @@
 {"slides":[
-{"title":"Mobile capabilities", "content":"<p></p><ul><li>Geolocation</li><li>Notifications</li><li>More physical interactions</li><li>Not supporting legacy browsers</li></ul>"},
+{"title":"Mobile capabilities", "content":"<p>More tech possibilities and different user priorities</p><ul><li>Geolocation</li><li>Notifications</li><li>More physical interactions</li><li>Not supporting legacy browsers</li></ul>"},
 {"title":"The oldest HTML5 site in the world (sort of)", "content":"<iframe src='http://www.w3.org/History/19921103-hypertext/hypertext/WWW/TheProject.html'></iframe>"},
 {"title":"Responsive sites and HTML5", "content":"<ul><li>Responsive sites don't <b>have</b> to use HTML5's new features</li><li>HTML5 is an important tool for building websites displaying on both desktop and mobile devices</li></ul>"},
 {"title":"Geolocation", "content":"<ul><li>Part of the HTML5 spec accessed by Javascript</li><li>Asks user permission</li><li>Extra data on our users</li></ul>"},
