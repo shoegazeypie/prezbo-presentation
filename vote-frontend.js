@@ -73,8 +73,8 @@ var options = new Array ("Yes","No");
 var voteExample = new Vote(options);
 
 
-    var can = document.getElementById("vote-canvas");
-    var ctx = can.getContext("2d");
-    var colours = new Array('#FF0000','0000FF','#00FF00','FF00FF','#FFFF00','00FFFF');
-    ctx.fillStyle = "#eee";
-    ctx.fillRect(0,0,300,300);
+var can = document.getElementById("vote-canvas");
+var ctx = can.getContext("2d");
+var colours = new Array('#FF0000','0000FF','#00FF00','FF00FF','#FFFF00','00FFFF');
+ctx.fillStyle = "#eee";
+ctx.fillRect(0,0,300,300);
